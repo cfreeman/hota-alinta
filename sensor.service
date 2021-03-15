@@ -1,0 +1,12 @@
+[Unit]
+Description=Start sensor
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/alinta-sensor/sensor.py --model=/home/pi/alinta-sensor/detect.tflite --labels=/home/pi/alinta-sensor/coco_labels.txt
+WorkingDirectory=/home/pi/alinta-sensor
+User=pi
+Group=pi
+Restart=on-failure
+
+[Install]
+WantedBy=graphical.target
