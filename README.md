@@ -28,7 +28,7 @@ Command to start sensor application:
 are powered up at the same time.~~
 * ~~Requesting the keys in Alinta's application be updated: x, c, j, k, i, w~~
 * ~~Set everything up in the mac-mini and test it for a long time.~~
-* ~~ Test that the encoder connection with the sensors is all working.~~
+* ~~Test that the encoder connection with the sensors is all working.~~
 * Test to make sure that the system resets correctly on power failure.
 * Test long duration (8+ hours)
 
