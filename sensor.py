@@ -80,29 +80,6 @@ def intersect(box):
   ymin = int(ymin * CAMERA_HEIGHT)
   ymax = int(ymax * CAMERA_HEIGHT)
 
-  #print("HS", h_xmin, h_xmax, h_ymin, h_ymax, sep=",")
-  #print("BB", xmin, xmax, ymin, ymax, sep=",")
-
-
-
-
-# "left", the x coordinate of its left side,
-# "top", the y coordinate of its top side,
-# "right", the x coordinate of its right side,
-# "bottom", the y coordinate of its bottom side,
-
-# function IntersectRect(r1:Rectangle, r2:Rectangle):Boolean {
-#     return !(r2.left > r1.right
-#         || r2.right < r1.left
-#         || r2.top > r1.bottom
-#         || r2.bottom < r1.top);
-# }
-
- # left = 1
- # right = 3
- # top = 2
- # bottom = 0
-
   return not(h_xmin > xmax or h_xmax < xmin or h_ymax < ymin or h_ymin > ymax)
 
 
@@ -171,6 +148,9 @@ def main():
   with picamera.PiCamera(
       resolution=(CAMERA_WIDTH, CAMERA_HEIGHT), framerate=30) as camera:
     camera.start_preview()
+
+    # Save the first frame to disk, so it can be downloaded for calibration
+    # and configuration purposes.
     camera.capture('test.jpg');
 
     last_time = time.time_ns()
@@ -196,16 +176,12 @@ def main():
           on = True
           led.on()
 
+        # We will wait a second when it has stopped detecting before turning
+        # the relay off. This stops bouncing if the algorithm can't get a
+        # solid fix on a person.
         delta_t = (time.time_ns() - last_time) / 1000000000
         if not on and delta_t > 1.0:
            led.off()
-
-        # If we have detected something that looks like a person - toggle the
-        # relay.
-        # if len(results) == 0:
-        #     led.off()
-        # else:
-        #     led.on()
 
         annotator.clear()
         annotate_objects(annotator, results, labels)
